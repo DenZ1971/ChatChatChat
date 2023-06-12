@@ -1,0 +1,54 @@
+{% extends 'chat_room/default.html' %}
+
+
+
+{% block title %}
+
+{% endblock title %}
+
+{% block content %}
+
+
+<hr>
+
+<hr>
+{% include 'includes/nav_bar.html' %}
+
+<ul class="list-group list-group-flush">
+  {% for room in data %}
+    <li class="list-group-item">
+      <small class="fw-bold">{{date|date:'d M Y' }} </small>
+      <a href={{ "index" }}><h2>{{room.creator.nickname}}{{room.id}}</h2></a>
+  {% for inv in room.invited %}
+    <li class="list-group-item">
+      <small class="text-muted">{{inv.nickname}}</small><br>
+    </li>
+
+  {% endfor %}
+
+
+
+
+  </li>
+  {% endfor %}
+
+{% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+{% endblock content %}
